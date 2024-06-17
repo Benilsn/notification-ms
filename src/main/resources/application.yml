@@ -4,6 +4,8 @@ server:
     context-path: /notification-ms
 
 spring:
+  profiles:
+    active: ${ENVIRONMENT:local}
   datasource:
     url: jdbc:h2:mem:notification-ms
     driverClassName: org.h2.Driver
