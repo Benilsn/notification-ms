@@ -1,8 +1,6 @@
 package br.com.reykon.notification_ms.config;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.Configuration;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.mail.javamail.JavaMailSenderImpl;
 import org.springframework.stereotype.Component;
@@ -11,23 +9,26 @@ import java.util.Properties;
 @Component
 public class EmailSenderConfig {
 
-    @Autowired
-    private NotificationConfig config;
+    private final NotificationConfig notificationConfig;
+
+    public EmailSenderConfig(NotificationConfig notificationConfig) {
+        this.notificationConfig = notificationConfig;
+    }
 
     @Bean
     public JavaMailSender getJavaMailSender() {
         JavaMailSenderImpl mailSender = new JavaMailSenderImpl();
-        mailSender.setHost(config.getHost());
-        mailSender.setPort(config.getPort());
+        mailSender.setHost(notificationConfig.getEmail().getHost());
+        mailSender.setPort(notificationConfig.getEmail().getPort());
 
-        mailSender.setUsername(config.getUsername());
-        mailSender.setPassword(config.getPassword());
+        mailSender.setUsername(notificationConfig.getEmail().getUsername());
+        mailSender.setPassword(notificationConfig.getEmail().getPassword());
 
         Properties props = mailSender.getJavaMailProperties();
-        props.put("mail.transport.protocol", config.getProtocol());
-        props.put("mail.smtp.auth", config.getSmtpAuth());
-        props.put("mail.smtp.starttls.enable", config.getStarttlsEnabled());
-        props.put("mail.debug", config.getDebug());
+        props.put("mail.transport.protocol", notificationConfig.getEmail().getProtocol());
+        props.put("mail.smtp.auth", notificationConfig.getEmail().getSmtpAuth());
+        props.put("mail.smtp.starttls.enable", notificationConfig.getEmail().getStarttlsEnabled());
+        props.put("mail.debug", notificationConfig.getEmail().getDebug());
 
         return mailSender;
     }

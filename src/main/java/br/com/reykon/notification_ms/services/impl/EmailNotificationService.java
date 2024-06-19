@@ -1,33 +1,39 @@
 package br.com.reykon.notification_ms.services.impl;
 
-import br.com.reykon.notification_ms.config.EmailSenderConfig;
 import br.com.reykon.notification_ms.models.NotificationDto;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 import br.com.reykon.notification_ms.services.NotificationService;
 
+@Slf4j
 @Service
 public class EmailNotificationService implements NotificationService {
 
-    @Autowired
-    private JavaMailSender mailSender;
+  private final JavaMailSender mailSender;
 
-    @Override
-    public void notify(NotificationDto input) {
-        try {
-            SimpleMailMessage message = new SimpleMailMessage();
-            message.setFrom("benilson.smtr@gmail.com");
-            message.setTo("benilson.smtr@gmail.com");
-            message.setSubject("Test");
-            message.setText("Test");
-            mailSender.send(message);
+  public EmailNotificationService(JavaMailSender mailSender) {
+    this.mailSender = mailSender;
+  }
 
-        } catch (MailException e) {
-            System.out.println(e.getCause());
-        }
+  @Override
+  public void notify(NotificationDto input) {
+    try {
+      SimpleMailMessage message = new SimpleMailMessage();
+      message.setFrom("noreply.notification.servic3@gmail.com");
+      message.setTo(input.getSendTo());
+      message.setSubject(input.getSubject());
+      message.setText(input.getText());
+
+      log.info("Sending email to: {} ...", input.getSendTo());
+      mailSender.send(message);
+      log.info("Email sent successfully");
+
+    } catch (MailException e) {
+      log.error("Error: {}, while sending email to: {}", e.getMessage(), input.getSendTo());
     }
+  }
 
 }

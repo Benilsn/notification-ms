@@ -8,9 +8,15 @@ import org.springframework.stereotype.Component;
 @Getter
 @Setter
 @Component
-@ConfigurationProperties(prefix = "notification.email.config")
+@ConfigurationProperties(prefix = "notification.config")
 public class NotificationConfig {
 
+  private final Email email = new Email();
+  private final Sms sms = new Sms();
+
+  @Getter
+  @Setter
+  public static class Email {
     private String username;
     private String password;
     private String host;
@@ -19,14 +25,10 @@ public class NotificationConfig {
     private String smtpAuth;
     private String starttlsEnabled;
     private String debug;
+  }
 
-//  @Getter
-//  @Setter
-//  public static class Credentials {
-//  }
-//
-//  @Getter
-//  @Setter
-//  public static class Server {
-//  }
+  @Getter
+  @Setter
+  public static class Sms {
+  }
 }

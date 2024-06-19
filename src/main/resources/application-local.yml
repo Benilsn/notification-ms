@@ -1,2 +1,11 @@
 PORT: 8080
-ENVIRONMENT: local 
+ENVIRONMENT: local
+
+EMAIL_USERNAME: noreply.notification.servic3@gmail.com
+EMAIL_PASSWORD: wzvdvdfdvnzgertp
+EMAIL_HOST: smtp.gmail.com
+EMAIL_PORT: 25
+EMAIL_PROTOCOL: smtp
+EMAIL_SMTPAUTH: true
+EMAIL_STARTTLS: true
+EMAIL_DEBUG: false
