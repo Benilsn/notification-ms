@@ -1,7 +1,6 @@
 package br.com.reykon.notification_ms.controllers;
 
-import br.com.reykon.notification_ms.utils.NotificationUtils;
-import org.springframework.beans.factory.annotation.Autowired;
+import br.com.reykon.notification_ms.validator.NotificationValidator;
 import org.springframework.web.bind.annotation.RestController;
 import br.com.reykon.notification_ms.models.NotificationDto;
 import br.com.reykon.notification_ms.services.NotificationService;
@@ -12,17 +11,16 @@ import org.springframework.web.bind.annotation.RequestBody;
 @RestController
 public class NotificationController {
 
-  private final NotificationUtils notificationUtils;
+  private final NotificationValidator notificationValidator;
 
-  @Autowired
-  public NotificationController(NotificationUtils notificationUtils) {
-    this.notificationUtils = notificationUtils;
+  public NotificationController(NotificationValidator notificationValidator) {
+    this.notificationValidator = notificationValidator;
   }
 
   @PostMapping("/v1/notify")
   public ResponseEntity<?> notify(@RequestBody NotificationDto input) {
     ResponseEntity<?> response;
-    NotificationService service = notificationUtils.validateNotification(input);
+    NotificationService service = notificationValidator.validate(input);
 
     try {
       service.notify(input);

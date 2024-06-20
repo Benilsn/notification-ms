@@ -1,26 +1,27 @@
-package br.com.reykon.notification_ms.utils;
+package br.com.reykon.notification_ms.validator;
 
 import br.com.reykon.notification_ms.config.EmailSenderConfig;
+import br.com.reykon.notification_ms.config.SmsSenderConfig;
 import br.com.reykon.notification_ms.exception.NotificationException;
 import br.com.reykon.notification_ms.models.NotificationDto;
 import br.com.reykon.notification_ms.models.NotificationType;
 import br.com.reykon.notification_ms.services.NotificationService;
 import br.com.reykon.notification_ms.services.impl.EmailNotificationService;
 import br.com.reykon.notification_ms.services.impl.SmsNotificationService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NotificationUtils {
+public class NotificationValidator {
 
   private final EmailSenderConfig emailSenderConfig;
+  private final SmsSenderConfig smsSenderConfig;
 
-  @Autowired
-  public NotificationUtils(EmailSenderConfig emailSenderConfig) {
+  public NotificationValidator(EmailSenderConfig emailSenderConfig, SmsSenderConfig smsSenderConfig) {
     this.emailSenderConfig = emailSenderConfig;
+    this.smsSenderConfig = smsSenderConfig;
   }
 
-  public NotificationService validateNotification(NotificationDto input) {
+  public NotificationService validate(NotificationDto input) {
     NotificationService service = null;
 
     if (input.getType() == NotificationType.EMAIL) {
@@ -32,10 +33,10 @@ public class NotificationUtils {
         throw new NotificationException("Invalid email!");
       }
     } else if (input.getType() == NotificationType.SMS) {
-      boolean validPhoneNumber = input.getSendTo().matches("^\\+?[1-9]\\d{1,14}$\n");
+      boolean validPhoneNumber = input.getSendTo().matches("^\\+?[1-9]\\d{1,14}$");
 
       if (validPhoneNumber) {
-        service = new SmsNotificationService(emailSenderConfig.getJavaMailSender());
+        service = new SmsNotificationService(smsSenderConfig);
       } else {
         throw new NotificationException("Invalid phone number!");
       }

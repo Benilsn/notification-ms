@@ -30,5 +30,7 @@ public class NotificationConfig {
   @Getter
   @Setter
   public static class Sms {
+    private String account_sid;
+    private String auth_token;
   }
 }

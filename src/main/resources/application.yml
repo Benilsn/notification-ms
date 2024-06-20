@@ -20,3 +20,6 @@ notification:
       smtp-auth: ${EMAIL_SMTPAUTH}
       starttls-enabled: ${EMAIL_STARTTLS}
       debug: ${EMAIL_DEBUG}
+    sms:
+      account-sid: ${ACCOUNT_SID}
+      auth-token: ${AUTH_TOKEN}
