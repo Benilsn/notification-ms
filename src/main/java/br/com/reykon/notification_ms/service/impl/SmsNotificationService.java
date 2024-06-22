@@ -20,12 +20,10 @@ public class SmsNotificationService implements NotificationService {
 
   @Override
   public void notify(NotificationDto input) {
-    final String PLUS = "+";
 
     log.info("Sending SMS...");
     senderConfig.send(
-            PLUS.concat("14696851949"),
-            PLUS.concat(input.getSendTo()),
+            "+" + input.getSendTo(),
             input.getText());
   }
 }

@@ -18,15 +18,15 @@ public class SmsSenderConfig {
     this.notificationConfig = notificationConfig;
   }
 
-  public void send(String fromNumber, String toNumber, String textToSend) {
+  public void send(String toNumber, String textToSend) {
 
     Twilio.init(
-            notificationConfig.getSms().getAccount_sid(),
-            notificationConfig.getSms().getAuth_token());
+            notificationConfig.getSms().getAccountSid(),
+            notificationConfig.getSms().getAuthToken());
 
     var msg = Message.creator(
             new PhoneNumber(toNumber),
-            new PhoneNumber(fromNumber),
+            new PhoneNumber(notificationConfig.getSms().getFromPhoneNumber()),
             textToSend).create();
 
 
