@@ -3,6 +3,7 @@ package br.com.reykon.notification_ms.service.impl;
 import br.com.reykon.notification_ms.model.NotificationDto;
 import br.com.reykon.notification_ms.service.NotificationService;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -14,6 +15,7 @@ public class EmailNotificationService implements NotificationService {
 
   private final JavaMailSender mailSender;
 
+  @Autowired
   public EmailNotificationService(JavaMailSender mailSender) {
     this.mailSender = mailSender;
   }

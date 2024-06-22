@@ -8,6 +8,7 @@ import br.com.reykon.notification_ms.model.NotificationType;
 import br.com.reykon.notification_ms.service.NotificationService;
 import br.com.reykon.notification_ms.service.impl.EmailNotificationService;
 import br.com.reykon.notification_ms.service.impl.SmsNotificationService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
@@ -17,6 +18,7 @@ public class NotificationValidator {
   private final EmailSenderConfig emailSenderConfig;
   private final SmsSenderConfig smsSenderConfig;
 
+  @Autowired
   public NotificationValidator(EmailSenderConfig emailSenderConfig, SmsSenderConfig smsSenderConfig) {
     this.emailSenderConfig = emailSenderConfig;
     this.smsSenderConfig = smsSenderConfig;

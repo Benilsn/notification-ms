@@ -23,3 +23,11 @@ notification:
     sms:
       account-sid: ${ACCOUNT_SID}
       auth-token: ${AUTH_TOKEN}
+
+resilience4j:
+  ratelimiter:
+    instances:
+      notification-limiter:
+        limit-for-period: 10
+        limit-refresh-period: 1s
+        timeout-duration: 0
