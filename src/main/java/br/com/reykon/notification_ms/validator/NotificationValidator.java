@@ -3,11 +3,12 @@ package br.com.reykon.notification_ms.validator;
 import br.com.reykon.notification_ms.config.EmailSenderConfig;
 import br.com.reykon.notification_ms.config.SmsSenderConfig;
 import br.com.reykon.notification_ms.exception.NotificationException;
-import br.com.reykon.notification_ms.models.NotificationDto;
-import br.com.reykon.notification_ms.models.NotificationType;
-import br.com.reykon.notification_ms.services.NotificationService;
-import br.com.reykon.notification_ms.services.impl.EmailNotificationService;
-import br.com.reykon.notification_ms.services.impl.SmsNotificationService;
+import br.com.reykon.notification_ms.model.NotificationDto;
+import br.com.reykon.notification_ms.model.NotificationType;
+import br.com.reykon.notification_ms.service.NotificationService;
+import br.com.reykon.notification_ms.service.impl.EmailNotificationService;
+import br.com.reykon.notification_ms.service.impl.SmsNotificationService;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 
 @Component
@@ -30,7 +31,7 @@ public class NotificationValidator {
       if (validEmail) {
         service = new EmailNotificationService(emailSenderConfig.getJavaMailSender());
       } else {
-        throw new NotificationException("Invalid email!");
+        throw new NotificationException("Invalid email!", HttpStatus.BAD_REQUEST);
       }
     } else if (input.getType() == NotificationType.SMS) {
       boolean validPhoneNumber = input.getSendTo().matches("^\\+?[1-9]\\d{1,14}$");
@@ -38,10 +39,10 @@ public class NotificationValidator {
       if (validPhoneNumber) {
         service = new SmsNotificationService(smsSenderConfig);
       } else {
-        throw new NotificationException("Invalid phone number!");
+        throw new NotificationException("Invalid phone number!", HttpStatus.BAD_REQUEST);
       }
     } else {
-      throw new NotificationException("Invalid notification type: " + input.getType() + "it's either EMAIL or SMS!");
+      throw new NotificationException("Invalid notification type: " + input.getType() + "it's either EMAIL or SMS!", HttpStatus.BAD_REQUEST);
     }
 
     return service;

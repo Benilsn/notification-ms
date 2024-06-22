@@ -1,4 +1,4 @@
-package br.com.reykon.notification_ms.models;
+package br.com.reykon.notification_ms.model;
 
 public enum NotificationType {
     SMS,

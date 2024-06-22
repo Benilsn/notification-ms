@@ -1,17 +1,16 @@
-package br.com.reykon.notification_ms.services.impl;
+package br.com.reykon.notification_ms.service.impl;
 
 import br.com.reykon.notification_ms.config.SmsSenderConfig;
-import br.com.reykon.notification_ms.models.NotificationDto;
+import br.com.reykon.notification_ms.model.NotificationDto;
+import br.com.reykon.notification_ms.service.NotificationService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import br.com.reykon.notification_ms.services.NotificationService;
 
 @Slf4j
 @Service
 public class SmsNotificationService implements NotificationService {
 
   private final SmsSenderConfig senderConfig;
-  private final String PLUS = "+";
 
   public SmsNotificationService(SmsSenderConfig senderConfig) {
     this.senderConfig = senderConfig;
@@ -19,7 +18,9 @@ public class SmsNotificationService implements NotificationService {
 
   @Override
   public void notify(NotificationDto input) {
+    final String PLUS = "+";
+
     log.info("Sending SMS...");
-    senderConfig.send(PLUS.concat(input.getSendTo()), PLUS.concat("14696851949"), input.getText());
+    senderConfig.send(PLUS.concat("14696851949"), PLUS.concat(input.getSendTo()), input.getText());
   }
 }

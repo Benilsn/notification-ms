@@ -1,12 +1,12 @@
-package br.com.reykon.notification_ms.controllers;
+package br.com.reykon.notification_ms.controller;
 
+import br.com.reykon.notification_ms.model.NotificationDto;
+import br.com.reykon.notification_ms.service.NotificationService;
 import br.com.reykon.notification_ms.validator.NotificationValidator;
-import org.springframework.web.bind.annotation.RestController;
-import br.com.reykon.notification_ms.models.NotificationDto;
-import br.com.reykon.notification_ms.services.NotificationService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 public class NotificationController {
@@ -19,17 +19,11 @@ public class NotificationController {
 
   @PostMapping("/v1/notify")
   public ResponseEntity<?> notify(@RequestBody NotificationDto input) {
-    ResponseEntity<?> response;
     NotificationService service = notificationValidator.validate(input);
 
-    try {
-      service.notify(input);
-      response = ResponseEntity.noContent().build();
-    } catch (Exception e) {
-      response = ResponseEntity.internalServerError().body(e.getMessage());
-    }
+    service.notify(input);
 
-    return response;
+    return ResponseEntity.noContent().build();
   }
 
 }

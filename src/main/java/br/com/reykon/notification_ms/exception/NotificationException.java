@@ -1,8 +1,16 @@
 package br.com.reykon.notification_ms.exception;
 
-public class NotificationException extends RuntimeException{
+import lombok.Getter;
+import org.springframework.http.HttpStatusCode;
 
-  public NotificationException(String message) {
-    super(message);
+@Getter
+public class NotificationException extends RuntimeException {
+
+  private final String message;
+  private final HttpStatusCode errorCode;
+
+  public NotificationException(String message, HttpStatusCode errorCode) {
+    this.message = message;
+    this.errorCode = errorCode;
   }
 }
