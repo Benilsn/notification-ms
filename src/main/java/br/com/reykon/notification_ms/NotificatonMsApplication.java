@@ -1,4 +1,4 @@
-package br.com.reykon.notificaton_ms;
+package br.com.reykon.notification_ms;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;

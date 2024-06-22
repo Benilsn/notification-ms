@@ -23,7 +23,6 @@ notification:
     sms:
       account-sid: ${ACCOUNT_SID}
       auth-token: ${AUTH_TOKEN}
-      from-phone-number: ${FROM_PHONE_NUMBER}
 
 resilience4j:
   ratelimiter:

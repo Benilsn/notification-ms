@@ -1,0 +1,39 @@
+package br.com.reykon.notification_ms.config;
+
+import br.com.reykon.notification_ms.exception.NotificationException;
+import com.twilio.Twilio;
+import com.twilio.rest.api.v2010.account.Message;
+import com.twilio.type.PhoneNumber;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.stereotype.Component;
+
+@Slf4j
+@Component
+public class SmsSenderConfig {
+
+  private final NotificationConfig notificationConfig;
+
+  public SmsSenderConfig(NotificationConfig notificationConfig) {
+    this.notificationConfig = notificationConfig;
+  }
+
+  public void send(String toNumber, String textToSend) {
+
+    Twilio.init(
+            notificationConfig.getSms().getAccountSid(),
+            notificationConfig.getSms().getAuthToken());
+
+    var msg = Message.creator(
+            new PhoneNumber(toNumber),
+            new PhoneNumber(notificationConfig.getSms().getFromPhoneNumber()),
+            textToSend).create();
+
+
+    if (msg.getErrorCode() == null && msg.getErrorMessage() == null) {
+      log.info("SMS sent successfully!");
+    } else {
+      throw new NotificationException(msg.getErrorMessage(), HttpStatus.resolve(msg.getErrorCode()));
+    }
+  }
+}
